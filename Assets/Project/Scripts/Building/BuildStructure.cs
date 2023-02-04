@@ -26,7 +26,7 @@ public class BuildStructure : MonoBehaviour
     private void Awake()
     {
         grid = FindObjectOfType<Grid>();
-        _col = GetComponent<BoxCollider2D>();
+        _col = prefab.GetComponent<BoxCollider2D>();
     }
 
     void Start()
@@ -45,16 +45,16 @@ public class BuildStructure : MonoBehaviour
     {
         GetMousePos();
 
-        //if (CanPlaceItem())
-        //{
-        //    //Debug.Log("Valid");
-        //    //ghostRenderer.material = validMat;
-        //}
-        //else
-        //{
-        //    //Debug.Log("Invalid");
-        //    //ghostRenderer.material = invalidMat;
-        //}
+        if (CanPlaceItem())
+        {
+            Debug.Log("Valid");
+            //ghostRenderer.material = validMat;
+        }
+        else
+        {
+            Debug.Log("Invalid");
+            //ghostRenderer.material = invalidMat;
+        }
 
         if (Mouse.current.leftButton.wasReleasedThisFrame)
         {
@@ -83,7 +83,7 @@ public class BuildStructure : MonoBehaviour
         if (CheckValidPlacementBox != null)
         {
             Debug.Log(CheckValidPlacementBox);
-            if(CheckValidPlacementBox == this.GetComponent<BoxCollider2D>())
+            if(CheckValidPlacementBox == _col)
             {
                 return true;
             }
@@ -95,10 +95,10 @@ public class BuildStructure : MonoBehaviour
 
     bool PlacingItem()
     {
-        //if (!CanPlaceItem())
-        //{
-        //    return false;
-        //}
+        if (!CanPlaceItem())
+        {
+            return false;
+        }
 
         if (!delayedStart)
         {
