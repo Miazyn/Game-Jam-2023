@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    [SerializeField] public int resourceOne { get; private set; }
+
     public GameState CurGameState { get; private set; }
 
     public enum GameState
@@ -29,6 +31,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        resourceOne = 0;
+    }
 
     public void ChangeGameState(GameState _gameState)
     {
@@ -52,5 +58,11 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
+    }
+
+    
+    public void AddResource(int _addedAmount)
+    {
+        resourceOne += _addedAmount;
     }
 }

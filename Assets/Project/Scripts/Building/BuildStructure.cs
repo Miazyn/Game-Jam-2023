@@ -6,32 +6,23 @@ using UnityEngine.InputSystem;
 
 public class BuildStructure : MonoBehaviour
 {
-
-    RaycastHit hit;
-    Vector3 movePoint;
-    //[SerializeField] SO_Structures structureSO;
     public GameObject prefab;
-    bool delayedStart = false;
+    private bool delayedStart = false;
 
     [SerializeField] SpriteRenderer ghostRenderer;
     [SerializeField] Material validMat;
     [SerializeField] Material invalidMat;
 
-    [SerializeField] float maxBuildDistance = 200f;
-
-    BoxCollider2D _col;
-
-    Grid grid;
+    private BoxCollider2D _col;
 
     private void Awake()
     {
-        grid = FindObjectOfType<Grid>();
         _col = prefab.GetComponent<BoxCollider2D>();
     }
 
     void Start()
     {
-        GetMousePos();
+        ChangeObjectPos();
         StartCoroutine(StartDelay());
     }
 
@@ -43,7 +34,7 @@ public class BuildStructure : MonoBehaviour
 
     private void Update()
     {
-        GetMousePos();
+        ChangeObjectPos();
 
         if (CanPlaceItem())
         {
@@ -67,7 +58,7 @@ public class BuildStructure : MonoBehaviour
         }
     }
 
-    void GetMousePos()
+    void ChangeObjectPos()
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
 
@@ -79,6 +70,11 @@ public class BuildStructure : MonoBehaviour
     bool CanPlaceItem()
     {
         var CheckValidPlacementBox = Physics2D.OverlapBox(Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()) + (Vector3)_col.offset, _col.size, 0f);
+
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return false;
+        }
 
         if (CheckValidPlacementBox != null)
         {
