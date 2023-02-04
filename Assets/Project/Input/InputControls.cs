@@ -24,7 +24,7 @@ public class @InputControls : IInputActionCollection, IDisposable
                     ""id"": ""e04a2576-1f9e-496c-8367-a845e01e45a5"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
-                    ""interactions"": ""Press(behavior=2)""
+                    ""interactions"": ""Press,MultiTap""
                 }
             ],
             ""bindings"": [
