@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController Instance;
+
     public InputControls controls { get; private set; }
 
     private Vector2 moveDirection;
@@ -25,8 +27,21 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float movementSpeed = 5;
     [SerializeField] float dashAmplifier = 2f;
 
+    public delegate void PlayerMovedCallback();
+    public PlayerMovedCallback playerMovedCallback;
+
     private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(this);
+        }
+
         controls = new InputControls();
     }
 
@@ -35,10 +50,12 @@ public class PlayerController : MonoBehaviour
         if (IsDashing)
         {
             Dash();
+            playerMovedCallback?.Invoke();
         }
         else 
         { 
             MovePlayer();
+            playerMovedCallback?.Invoke();
         }
 
         if (!CanDash && !IsDashing)
