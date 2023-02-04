@@ -21,8 +21,10 @@ public class PlayerController : MonoBehaviour
     private float dashTimer = 0f;
 
     private float doubleClickTimer = 0f;
-    private float doubleClickTime = 0.4f;
+    private float doubleClickTime = 0.3f;
     private char key = ' ';
+
+    private int curDirection = 1;
 
     [SerializeField] float movementSpeed = 5;
     [SerializeField] float dashAmplifier = 2f;
@@ -148,6 +150,22 @@ public class PlayerController : MonoBehaviour
         moveDirection = controls.Player.Move.ReadValue<Vector2>();
 
         transform.position += new Vector3(moveDirection.x, moveDirection.y, 0) * movementSpeed * Time.deltaTime;
+
+        FlipChar((int)moveDirection.x);
+    }
+
+    private void FlipChar(int _direction)
+    {
+        if(_direction == 0)
+        {
+            return;
+        }
+
+        if(_direction != curDirection)
+        {
+            transform.Rotate(0, 180, 0);
+            curDirection = _direction;
+        }
     }
 
     private void Dash()
@@ -166,6 +184,8 @@ public class PlayerController : MonoBehaviour
             //START DASH COOLDOWN
             dashCooldownTimer = dashCooldown;
         }
+
+        FlipChar((int)dashDirection.x);
     }
 
     private void CheckKeyPressForDASH()
