@@ -6,7 +6,8 @@ using UnityEngine.InputSystem;
 
 public class BuildStructure : MonoBehaviour
 {
-    public GameObject prefab;
+    [SerializeField] private GameObject prefab;
+    [SerializeField] private SO_Structure structure;
     private bool delayedStart = false;
 
     [SerializeField] SpriteRenderer ghostRenderer;
@@ -15,6 +16,8 @@ public class BuildStructure : MonoBehaviour
 
     private BoxCollider2D _col;
 
+    private GameManager manager;
+
     private void Awake()
     {
         _col = prefab.GetComponent<BoxCollider2D>();
@@ -22,6 +25,8 @@ public class BuildStructure : MonoBehaviour
 
     void Start()
     {
+        manager = GameManager.Instance;
+
         ChangeObjectPos();
         StartCoroutine(StartDelay());
     }
@@ -101,6 +106,12 @@ public class BuildStructure : MonoBehaviour
             return false;
         }
 
+        if(manager.resourceOne < structure.ReqResourceOne)
+        {
+            return false;
+        }
+
+        manager.AddResource(-structure.ReqResourceOne);
         Instantiate(prefab, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
 
         //Destroy(gameObject);

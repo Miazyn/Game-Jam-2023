@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    [SerializeField] public int resourceOne { get; private set; }
+    public int resourceOne { get; private set; }
 
     public GameState CurGameState { get; private set; }
 
@@ -60,6 +60,18 @@ public class GameManager : MonoBehaviour
 
     }
 
+    [ContextMenu("Add 100 Bucks")]
+    private void AddMoniesEditor()
+    {
+        resourceOne += 100;
+        Debug.Log(resourceOne);
+    }
+    [ContextMenu("Remove all money")]
+    private void RemoveMoniesEditor()
+    {
+        resourceOne = 0;
+        Debug.Log(resourceOne);
+    }
     
     public void AddResource(int _addedAmount)
     {

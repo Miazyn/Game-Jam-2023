@@ -123,6 +123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 5280757838434586583, guid: 482bae840ccf16f4ea6b7012d3a335fe, type: 3}
+  structure: {fileID: 11400000, guid: 78a40072fa62b2c49a619ca4b8e50007, type: 2}
   ghostRenderer: {fileID: 7347378518063455110}
   validMat: {fileID: 0}
   invalidMat: {fileID: 0}
