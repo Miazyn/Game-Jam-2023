@@ -4,10 +4,11 @@ using UnityEngine;
 
 public interface IHealth
 {
-    private float armor { get; }
-    private float currentHealth { get; }
-    private float maxHealth { get; }
-    private bool canBeDamaged { get; }
+    float armor { get; }
+    float currentHealth { get; }
+    float maxHealth { get; }
+    bool canBeDamaged { get; }
 
-    public void changeHealth(float damage);
+    void changeHealth(float damage);
+    void die();
 }
