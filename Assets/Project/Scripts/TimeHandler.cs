@@ -8,6 +8,10 @@ public class TimeHandler : MonoBehaviour
     private int globalTime = 0;
     private bool keepCounting = true;
 
+    public delegate void TimeHasChangedCallback();
+    public TimeHasChangedCallback timeChangeCallback;
+
+
     void Start()
     {
         StartCoroutine(GlobalTimeHandler());
@@ -23,7 +27,12 @@ public class TimeHandler : MonoBehaviour
         int _currentTime = getGlobalTimeSeconds();
         int minutes = _currentTime / 60;
         int seconds = _currentTime % 60;
-        return minutes.ToString() + " : " + seconds.ToString();
+
+        string textReturn = string.Format("{0:00}:{1:00}", minutes, seconds);
+
+        return textReturn;
+
+        //return minutes.ToString() + " : " + seconds.ToString();
     }
 
     public void setKeepCounting(bool _keepCounting)
@@ -47,6 +56,9 @@ public class TimeHandler : MonoBehaviour
                 continue;
             }
             globalTime = globalTime + 1;
+
+            timeChangeCallback?.Invoke();
+
             yield return new WaitForSeconds(1);
         }
     }
