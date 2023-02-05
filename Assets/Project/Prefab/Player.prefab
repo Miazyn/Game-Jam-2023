@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5670699587919218328
 Transform:
   m_ObjectHideFlags: 0
@@ -317,7 +317,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 9
   m_Sprite: {fileID: 3625043607559282579, guid: 045b15ec09bba42448d89db77fa6f20a, type: 3}
-  m_Color: {r: 0.5849056, g: 0.28362405, b: 0.28362405, a: 1}
+  m_Color: {r: 0.28235295, g: 0.3848414, b: 0.58431375, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -426,7 +426,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 9
   m_Sprite: {fileID: 3625043607559282579, guid: 045b15ec09bba42448d89db77fa6f20a, type: 3}
-  m_Color: {r: 0.5849056, g: 0.28362405, b: 0.28362405, a: 1}
+  m_Color: {r: 0.32575843, g: 0.58431375, b: 0.28235295, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -556,11 +556,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54922590dd98f804bacccbb9abcbac79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fistCol: {fileID: 0}
-  meleeCol: {fileID: 0}
-  rangedCol: {fileID: 0}
-  melee: {fileID: 0}
-  ranged: {fileID: 0}
+  fistCol: {fileID: 4691119643137035545}
+  meleeCol: {fileID: 8355093775031935641}
+  rangedCol: {fileID: 7237746227125548275}
+  fist: {fileID: 1940343128045052097}
+  melee: {fileID: 3958397410450555627}
+  ranged: {fileID: 3473072986263218551}
   WeaponEquipped: 0
   fistDamage: 5
   meleeDamage: 15

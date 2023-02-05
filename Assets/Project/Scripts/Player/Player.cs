@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField] private BoxCollider2D meleeCol;
     [SerializeField] private BoxCollider2D rangedCol;
 
+    [SerializeField] private GameObject fist;
     [SerializeField] private GameObject melee;
     [SerializeField] private GameObject ranged;
 
@@ -41,18 +42,22 @@ public class Player : MonoBehaviour
         switch (WeaponEquipped)
         {
             case WeaponType.Fist:
+                fist.SetActive(true);
                 melee.SetActive(false);
                 ranged.SetActive(false);
                 break;
             case WeaponType.Melee:
+                fist.SetActive(false);
                 melee.SetActive(true);
                 ranged.SetActive(false);
                 break;
             case WeaponType.Ranged:
+                fist.SetActive(false);
                 melee.SetActive(false);
                 ranged.SetActive(true);
                 break;
             default:
+                fist.SetActive(true);
                 melee.SetActive(false);
                 ranged.SetActive(false);
 
