@@ -7,6 +7,8 @@ public class Enemy : MonoBehaviour, IHealth
     [Header("Editor Visibile")]
     [SerializeField] private float armorStats = 0;
     [SerializeField] private float maxHealthAmount = 0;
+    public GameObject tree;
+    public float movementSpeed;
 
 
     public float armor { get; set; }
@@ -18,7 +20,6 @@ public class Enemy : MonoBehaviour, IHealth
     public enum AI
     {
         Tree,
-        Player,
         Structures
     }
     [Header("AI")]
@@ -58,10 +59,31 @@ public class Enemy : MonoBehaviour, IHealth
 
     IEnumerator LookForAttack()
     {
+        float timeBetweenAttacks = 1;
         while (true)
         {
+            switch (enemyAI)
+            {
+                case AI.Tree:
+                    if (Vector3.Distance(transform.position, tree.transform.position + Vector3.down * 2f) > .5)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, tree.transform.position + Vector3.down * 2f, movementSpeed);
+                    }
+                    while (currentHealth<=0)
+                    {
+                        tree.GetComponent<IHealth>().changeHealth(-10);
+                        Debug.Log("Damaged!!!");
+                        yield return new WaitForSeconds(timeBetweenAttacks);
+                    }
+                    break;
+                case AI.Structures:
+                    break;
+                default:
+                    break;
+            }
             Debug.Log($"Looking for... {enemyAI}");
             
+
             yield return new WaitForSeconds(aiScanUpdate);
         }
     }
