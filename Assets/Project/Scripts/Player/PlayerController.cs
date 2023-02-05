@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -51,8 +52,14 @@ public class PlayerController : MonoBehaviour
         controls.Player.Attack.performed += _ctx_attack => Attack();
     }
 
+    void check()
+    {
+        Debug.Log("released");
+    }
+
     private void Update()
     {
+
         if (IsDashing)
         {
             Dash();
@@ -78,10 +85,7 @@ public class PlayerController : MonoBehaviour
             doubleClickTimer -= Time.deltaTime;
 
             DetectKeyPressed();
-            if (DetectKeyPressed())
-            {
-                CanDash = false;
-            }
+            
 
             if (doubleClickTimer <= 0f)
             {
@@ -135,6 +139,8 @@ public class PlayerController : MonoBehaviour
     private void MovePlayer()
     {
         moveDirection = controls.Player.Move.ReadValue<Vector2>();
+
+        Debug.Log(moveDirection);
 
         transform.position += new Vector3(moveDirection.x, moveDirection.y, 0) * movementSpeed * Time.deltaTime;
 
@@ -205,6 +211,7 @@ public class PlayerController : MonoBehaviour
             key = 'A';
         }
 
+        CanDash = false;
     }
 
     private void Attack()

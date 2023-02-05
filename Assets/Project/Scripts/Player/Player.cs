@@ -4,13 +4,21 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private BoxCollider2D fistCol;
-    [SerializeField] private BoxCollider2D meleeCol;
-    [SerializeField] private BoxCollider2D rangedCol;
+    private BoxCollider2D boxCol;
 
-    [SerializeField] private GameObject melee;
-    [SerializeField] private GameObject ranged;
+    [SerializeField] private SpriteRenderer weaponRenderer;
 
+    [SerializeField] private Sprite fist;
+    [SerializeField] private Sprite melee;
+    [SerializeField] private Sprite ranged;
+
+    [SerializeField] private GameObject unarmored;
+    [SerializeField] private GameObject armored;
+
+    [SerializeField] public bool HasArmor { get; private set; }
+
+    private Enemy enemy;
+    private bool canHitEnemy = false;
     public enum WeaponType
     {
         Fist,
@@ -29,6 +37,22 @@ public class Player : MonoBehaviour
         ChangeEquippedWeapon();
     }
 
+    public void PlayerArmorStatus(bool _hasArmor)
+    {
+        HasArmor = _hasArmor;
+
+        if (!HasArmor)
+        {
+            unarmored.SetActive(true);
+            armored.SetActive(false);
+        }
+        else
+        {
+            unarmored.SetActive(false);
+            armored.SetActive(true);
+        }
+    }
+
     public void WeaponChanged(WeaponType _weapon)
     {
         WeaponEquipped = _weapon;
@@ -41,21 +65,15 @@ public class Player : MonoBehaviour
         switch (WeaponEquipped)
         {
             case WeaponType.Fist:
-                melee.SetActive(false);
-                ranged.SetActive(false);
+                weaponRenderer.sprite = fist;
                 break;
             case WeaponType.Melee:
-                melee.SetActive(true);
-                ranged.SetActive(false);
+                weaponRenderer.sprite = melee;
                 break;
             case WeaponType.Ranged:
-                melee.SetActive(false);
-                ranged.SetActive(true);
+                weaponRenderer.sprite = ranged;
                 break;
             default:
-                melee.SetActive(false);
-                ranged.SetActive(false);
-
                 Debug.LogError("No Active weapon nor EquippedWeaponState found.");
                 break;
         }
@@ -63,41 +81,51 @@ public class Player : MonoBehaviour
 
     public void Attack()
     {
+        if (!canHitEnemy)
+        {
+            return;
+        }
+
         switch (WeaponEquipped)
         {
             case WeaponType.Fist:
-                HitTarget(fistCol, fistDamage);
+                enemy.changeHealth(-fistDamage);
                 break;
             case WeaponType.Melee:
-                HitTarget(meleeCol, meleeDamage);
+                enemy.changeHealth(-meleeDamage);
                 break;
             case WeaponType.Ranged:
-                HitTarget(rangedCol, rangedDamage);
+                enemy.changeHealth(-rangedDamage);
                 break;
             default:
-                Debug.LogError("Weapon out of range!");
                 break;
         }
     }
 
-    private void HitTarget(BoxCollider2D _rangeCollision, float dmg)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        var CollisionCheck = Physics2D.OverlapBox(_rangeCollision.bounds.center, _rangeCollision.size, 0f);
-
-        if(CollisionCheck == null)
+        if(collision.TryGetComponent<Enemy>(out enemy))
         {
-            return;
+            canHitEnemy = true;
         }
-
-        IHealth hit = CollisionCheck.GetComponent<IHealth>();
-
-        if(hit == null)
+        else
         {
-            return;
+            enemy = null;
+            canHitEnemy = false;
         }
+    }
 
-        Debug.Log($"Hit item, going to damage it. {CollisionCheck}");
-        hit.changeHealth(-dmg);
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(enemy == collision.GetComponent<Enemy>())
+        {
+            enemy = null;
+            canHitEnemy = false;
+        }
+        else
+        {
+            canHitEnemy = true;
+        }
     }
 
 }
