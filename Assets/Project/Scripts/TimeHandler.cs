@@ -7,6 +7,8 @@ public class TimeHandler : MonoBehaviour
 
     private int globalTime = 0;
     private bool keepCounting = true;
+    public GameObject prefab;
+    public GameObject tree;
 
     public delegate void TimeHasChangedCallback();
     public TimeHasChangedCallback timeChangeCallback;
@@ -15,6 +17,7 @@ public class TimeHandler : MonoBehaviour
     void Start()
     {
         StartCoroutine(GlobalTimeHandler());
+        StartCoroutine(EnemySpawing());
     }
 
     public int getGlobalTimeSeconds()
@@ -61,5 +64,32 @@ public class TimeHandler : MonoBehaviour
 
             yield return new WaitForSeconds(1);
         }
+    }
+
+    IEnumerator EnemySpawing()
+    {
+        while (true)
+        {
+            for (int i = Random.Range(5, 10); i > 0 ; i--)
+            {
+                GameObject thing = spawnEnemy();
+                thing.GetComponent<Enemy>().tree = this.tree;
+            }
+
+            yield return new WaitForSeconds(15);
+        }
+        
+        
+    }
+
+    GameObject spawnEnemy()
+    {
+        return Instantiate(prefab, spawnCoordsVector(), Quaternion.identity);
+    }
+    private Vector3 spawnCoordsVector()
+    {
+        float y = Random.Range(0f, 10f);
+        float x = Mathf.Sqrt(Mathf.Pow(10f, 2)-Mathf.Pow(y, 2));
+        return new Vector3(x, y, 1);
     }
 }
