@@ -24,7 +24,7 @@ public class @InputControls : IInputActionCollection, IDisposable
                     ""id"": ""e04a2576-1f9e-496c-8367-a845e01e45a5"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
-                    ""interactions"": ""Press,MultiTap""
+                    ""interactions"": ""Press""
                 },
                 {
                     ""name"": ""Attack"",
@@ -32,7 +32,7 @@ public class @InputControls : IInputActionCollection, IDisposable
                     ""id"": ""d44fc03c-a3d7-4fe0-8ce8-279b5ad63d39"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Press(behavior=2),MultiTap""
+                    ""interactions"": ""Press(behavior=1),MultiTap""
                 }
             ],
             ""bindings"": [
@@ -40,7 +40,7 @@ public class @InputControls : IInputActionCollection, IDisposable
                     ""name"": ""Movement"",
                     ""id"": ""1a544aaf-e234-4211-ab48-f3f88b4edd42"",
                     ""path"": ""2DVector"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press(behavior=2)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Move"",
