@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance;
 
+    private Player player;
+
     public InputControls controls { get; private set; }
 
     private Vector2 moveDirection;
@@ -43,8 +45,10 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(this);
         }
-
+        player = GetComponent<Player>();
         controls = new InputControls();
+
+        controls.Player.Attack.performed += _ctx_attack => Attack();
     }
 
     private void Update()
@@ -81,7 +85,6 @@ public class PlayerController : MonoBehaviour
 
             if (doubleClickTimer <= 0f)
             {
-                Debug.Log("Timer is over");
                 StartedDoubleClick = false;
             }
         }
@@ -97,40 +100,26 @@ public class PlayerController : MonoBehaviour
 
     private bool DetectKeyPressed()
     {
+        bool keyPressed = false;
+
         if (Keyboard.current.dKey.wasPressedThisFrame && key == 'D')
         {
-            Dash();
-            IsDashing = true;
-
-            dashTimer = dashTime;
-
-            StartedDoubleClick = false;
-
-            return true;
+            keyPressed = true;
         }
         if (Keyboard.current.wKey.wasPressedThisFrame && key == 'W')
         {
-            Dash();
-            IsDashing = true;
-
-            dashTimer = dashTime;
-
-            StartedDoubleClick = false;
-
-            return true;
+            keyPressed = true;
         }
         if (Keyboard.current.sKey.wasPressedThisFrame && key == 'S')
         {
-            Dash();
-            IsDashing = true;
-
-            dashTimer = dashTime;
-
-            StartedDoubleClick = false;
-
-            return true;
+            keyPressed = true;
         }
         if (Keyboard.current.aKey.wasPressedThisFrame && key == 'A')
+        {
+            keyPressed = true;
+        }
+
+        if (keyPressed)
         {
             Dash();
             IsDashing = true;
@@ -138,11 +127,9 @@ public class PlayerController : MonoBehaviour
             dashTimer = dashTime;
 
             StartedDoubleClick = false;
-
-            return true;
         }
 
-        return false;
+        return keyPressed;
     }
 
     private void MovePlayer()
@@ -170,7 +157,6 @@ public class PlayerController : MonoBehaviour
 
     private void Dash()
     {
-        Debug.Log("DASH");
         Vector2 dashDirection = controls.Player.Move.ReadValue<Vector2>();
 
         transform.position += new Vector3(dashDirection.x, dashDirection.y) * movementSpeed * dashAmplifier * Time.deltaTime;
@@ -180,7 +166,6 @@ public class PlayerController : MonoBehaviour
         if(dashTimer <= 0f)
         {
             IsDashing = false;
-            Debug.Log("Stop DASH");
             //START DASH COOLDOWN
             dashCooldownTimer = dashCooldown;
         }
@@ -222,6 +207,11 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    private void Attack()
+    {
+        Debug.Log("ATTACK!");
+        player.Attack();
+    }
 
     private void OnEnable()
     {
