@@ -35,6 +35,9 @@ public class PlayerController : MonoBehaviour
     public delegate void PlayerMovedCallback();
     public PlayerMovedCallback playerMovedCallback;
 
+    public delegate void PlayerDashCallback();
+    public PlayerDashCallback playerDashCallback;
+
     private void Awake()
     {
         if (Instance == null)
@@ -210,6 +213,8 @@ public class PlayerController : MonoBehaviour
 
             key = 'A';
         }
+
+        playerDashCallback?.Invoke();
 
         CanDash = false;
     }
