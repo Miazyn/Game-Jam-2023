@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-
+    private MusicManager music;
     public int resourceOne { get; private set; }
 
     public GameState CurGameState { get; private set; }
@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         resourceOne = 0;
+        music = MusicManager.instance;
     }
 
     public void ChangeGameState(GameState _gameState)
@@ -50,8 +51,10 @@ public class GameManager : MonoBehaviour
             case GameState.StartPhase:
                 break;
             case GameState.WaveDefense:
+                music.PlayFightMusic();
                 break;
             case GameState.DownTime:
+                music.PlayCalmMusic();
                 break;
             default:
                 Debug.LogError("Unexpected Game State occured!");
