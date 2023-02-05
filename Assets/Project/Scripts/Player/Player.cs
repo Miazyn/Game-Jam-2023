@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
     [SerializeField] private Sprite melee;
     [SerializeField] private Sprite ranged;
 
+    [SerializeField] private Animator weaponAnimator;
+
     [SerializeField] private GameObject unarmored;
     [SerializeField] private GameObject armored;
 
@@ -89,9 +91,11 @@ public class Player : MonoBehaviour
         switch (WeaponEquipped)
         {
             case WeaponType.Fist:
+                
                 enemy.changeHealth(-fistDamage);
                 break;
             case WeaponType.Melee:
+                weaponAnimator.Play("scytheswing");
                 enemy.changeHealth(-meleeDamage);
                 break;
             case WeaponType.Ranged:
