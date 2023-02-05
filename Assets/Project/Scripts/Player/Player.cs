@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private PlayerController player;
+
     private BoxCollider2D boxCol;
 
     [SerializeField] private SpriteRenderer weaponRenderer;
@@ -16,6 +18,12 @@ public class Player : MonoBehaviour
 
     [SerializeField] private GameObject unarmored;
     [SerializeField] private GameObject armored;
+
+
+    private AudioSource audio;
+    [SerializeField] private AudioClip hit;
+    [SerializeField] private AudioClip coin;
+    [SerializeField] private AudioClip dash;
 
     [SerializeField] public bool HasArmor { get; private set; }
 
@@ -36,8 +44,34 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        audio = GetComponent<AudioSource>();
+
+        player = PlayerController.Instance;
+
+        player.playerDashCallback += PlayDashSound;
+
         ChangeEquippedWeapon();
     }
+
+
+    public void PlayDashSound()
+    {
+        audio.clip = dash;
+        audio.Play();
+    }
+
+    public void PlayHitSound()
+    {
+        audio.clip = hit;
+        audio.Play();
+    }
+
+    public void PlayCoinSound()
+    {
+        audio.clip = coin;
+        audio.Play();
+    }
+
 
     public void PlayerArmorStatus(bool _hasArmor)
     {
@@ -93,13 +127,16 @@ public class Player : MonoBehaviour
             case WeaponType.Fist:
                 
                 enemy.changeHealth(-fistDamage);
+                PlayHitSound();
                 break;
             case WeaponType.Melee:
                 weaponAnimator.Play("scytheswing");
                 enemy.changeHealth(-meleeDamage);
+                PlayHitSound();
                 break;
             case WeaponType.Ranged:
                 enemy.changeHealth(-rangedDamage);
+                PlayHitSound();
                 break;
             default:
                 break;
